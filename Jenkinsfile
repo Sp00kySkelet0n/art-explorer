@@ -36,7 +36,7 @@ pipeline {
         stage('Launch app') {
             steps {
                 script {
-                    sh "sudo docker run -d -p ${params.PORT}:8000 --name art_explorer"
+                    sh "sudo docker run -d -p ${params.PORT}:8000 --name art_explorer art_explorer"
                 }
             }
         }
