@@ -1,8 +1,3 @@
-/*                     def tempDir = sh(script: 'mktemp -d', returnStdout: true).trim()
-                    dir(tempDir) {
-                        sh 'echo "Building the project..."'
-                        sh 'whoami && pwd'
-                    } */
 pipeline {
     agent {
         label 'vagrant'
@@ -16,6 +11,12 @@ pipeline {
             steps {
                 script {
                     sh "sudo docker build . -t art_explorer"
+                }
+            }
+            post {
+                failure {
+                    echo 'Build stage failed. Sending notification or performing cleanup...'
+                    sh 'curl https://discord.com/api/webhooks/1387160798354477056/VEaT1V1rhCAtU1fuqxNq3Q8ms2qi2R8auYdEKIkWdBRfVl2y3oNOn6PlFsLVAUklGtJH -d "{\"content\": \"Build stage failed for art_explorer!\"}"'
                 }
             }
         }
